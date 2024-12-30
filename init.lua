@@ -117,9 +117,8 @@ require("lazy").setup({
 	require("plugins.lspconfig"),
 	require("plugins.conform"),
 	require("plugins.nvimcmp"),
-	-- require("plugins.tokyonight"),
 	require("plugins.todocomments"),
-	require("plugins.mininvim"),
+	require("plugins.mini"),
 	require("plugins.autopairs"),
 	require("plugins.neo-tree"),
 })
