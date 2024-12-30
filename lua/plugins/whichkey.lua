@@ -1,19 +1,19 @@
 -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
-	--
-	-- This is often very useful to both group configuration, as well as handle
-	-- lazy loading plugins that don't need to be loaded immediately at startup.
-	--
-	-- For example, in the following configuration, we use:
-	--  event = 'VimEnter'
-	--
-	-- which loads which-key before all the UI elements are loaded. Events can be
-	-- normal autocommands events (`:help autocmd-events`).
-	--
-	-- Then, because we use the `opts` key (recommended), the configuration runs
-	-- after the plugin has been loaded as `require(MODULE).setup(opts)`.
+--
+-- This is often very useful to both group configuration, as well as handle
+-- lazy loading plugins that don't need to be loaded immediately at startup.
+--
+-- For example, in the following configuration, we use:
+--  event = 'VimEnter'
+--
+-- which loads which-key before all the UI elements are loaded. Events can be
+-- normal autocommands events (`:help autocmd-events`).
+--
+-- Then, because we use the `opts` key (recommended), the configuration runs
+-- after the plugin has been loaded as `require(MODULE).setup(opts)`.
 
 -- Useful plugin to show you pending keybinds.
-return { 
+return {
 	"folke/which-key.nvim",
 	event = "VimEnter", -- Sets the loading event to 'VimEnter'
 	opts = {
@@ -56,13 +56,17 @@ return {
 
 		-- Document existing key chains
 		spec = {
-			{ "<leader>c", group = "[C]ode", mode = { "n", "x" } },
-			{ "<leader>d", group = "[D]ocument" },
-			{ "<leader>r", group = "[R]ename" },
-			{ "<leader>s", group = "[S]earch" },
-			{ "<leader>w", group = "[W]orkspace" },
-			{ "<leader>t", group = "[T]oggle" },
-			{ "<leader>h", group = "Git [H]unk", mode = { "n", "v" } },
+			{ "<leader>c", group = "[c]ode", mode = { "n", "x" } },
+			{ "<leader>d", group = "[d]ocument" },
+			{ "<leader>r", group = "[r]ename" },
+			{ "<leader>s", group = "[s]earch" },
+			-- { "<leader>w", group = "[w]orkspace" },
+			{ "<leader>t", group = "[t]oggle" },
+			{ "<leader>h", group = "git [h]unk", mode = { "n", "v" } },
+			{ "<leader>l", group = "[l]sp" },
+			{ "<leader>w", group = "[w]indow" },
+			{ "<leader>t", group = "[t]abs" },
+			{ "<leader>b", group = "[b]uffer" },
 		},
 	},
 }
