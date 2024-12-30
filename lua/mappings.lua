@@ -30,5 +30,68 @@ vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left wind
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
-vim.keymap.set("n", "<C-e>", "<cmd>Ex<CR>", { desc = "Enter explorer mode" })
+vim.keymap.set("n", "<leader>e", "<cmd>Ex<CR>", { desc = "Enter explorer mode" })
 vim.keymap.set("i", "jk", "<Esc>", { desc = "Exit insert mode" })
+
+-- For conciseness
+local opts = { noremap = true, silent = true }
+
+-- save file
+vim.keymap.set("n", "<C-s>", "<cmd> w <CR>", opts)
+
+-- save file without auto-formatting
+vim.keymap.set("n", "<leader>sn", "<cmd>noautocmd w <CR>", opts)
+
+-- quit file
+vim.keymap.set("n", "<C-q>", "<cmd> q <CR>", opts)
+
+-- delete single character without copying into register
+vim.keymap.set("n", "x", '"_x', opts)
+
+-- Vertical scroll and center
+vim.keymap.set("n", "<C-d>", "<C-d>zz", opts)
+vim.keymap.set("n", "<C-u>", "<C-u>zz", opts)
+
+-- Find and center
+vim.keymap.set("n", "n", "nzzzv", opts)
+vim.keymap.set("n", "N", "Nzzzv", opts)
+
+-- Resize with arrows
+vim.keymap.set("n", "<C-Up>", ":resize -2<CR>", opts)
+vim.keymap.set("n", "<C-Down>", ":resize +2<CR>", opts)
+vim.keymap.set("n", "<C-Left>", ":vertical resize -2<CR>", opts)
+vim.keymap.set("n", "<C-Right>", ":vertical resize +2<CR>", opts)
+
+-- Buffers
+vim.keymap.set("n", "<Tab>", ":bnext<CR>", { desc = "go to next buffer" })
+vim.keymap.set("n", "<S-Tab>", ":bprevious<CR>", { desc = "go to previous buffer" })
+vim.keymap.set("n", "<leader>bx", ":bdelete!<CR>", { desc = "delete buffer" }) -- close buffer
+vim.keymap.set("n", "<leader>bc", "<cmd> enew <CR>", { desc = "create new buffer" }) -- new buffer
+
+-- Window management
+vim.keymap.set("n", "<leader>wv", "<C-w>v", { desc = "split [w]indow [v]ertically" }) -- split window vertically
+vim.keymap.set("n", "<leader>wh", "<C-w>s", { desc = "split [w]indow [h]orizontally" }) -- split window horizontally
+vim.keymap.set("n", "<leader>wse", "<C-w>=", { desc = "[s]plit [w]indows [e]qual width & height" }) -- make split windows equal width & height
+vim.keymap.set("n", "<leader>wx", ":close<CR>", { desc = "[w]indow [c]lose" }) -- close current split window
+
+-- Navigate between splits
+vim.keymap.set("n", "<C-l>", ":wincmd k<CR>", { desc = "move to window left" })
+vim.keymap.set("n", "<C-k>", ":wincmd j<CR>", { desc = "move to window below" })
+vim.keymap.set("n", "<C-j>", ":wincmd h<CR>", { desc = "move to window above" })
+vim.keymap.set("n", "<C-;>", ":wincmd l<CR>", { desc = "move to window right" })
+
+-- Tabs
+vim.keymap.set("n", "<leader>to", ":tabnew<CR>", { desc = "Open new tab" }) -- open new tab
+vim.keymap.set("n", "<leader>tx", ":tabclose<CR>", { desc = "close current tab" }) -- close current tab
+vim.keymap.set("n", "<leader>tn", ":tabn<CR>", { desc = "go to next tab" }) --  go to next tab
+vim.keymap.set("n", "<leader>tp", ":tabp<CR>", { desc = "go to previous tab" }) --  go to previous tab
+
+-- Toggle line wrapping
+vim.keymap.set("n", "<leader>tlw", "<cmd>set wrap!<CR>", { desc = "toggle line wrapping" })
+
+-- Stay in indent mode
+vim.keymap.set("v", "<", "<gv", opts)
+vim.keymap.set("v", ">", ">gv", opts)
+
+-- Keep last yanked when pasting
+vim.keymap.set("v", "p", '"_dP', opts)

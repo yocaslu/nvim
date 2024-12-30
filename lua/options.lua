@@ -7,7 +7,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = true 
+vim.g.have_nerd_font = true
 
 -- See `:help vim.opt`
 -- NOTE: You can change these options as you wish!
@@ -54,8 +54,8 @@ vim.opt.updatetime = 250
 vim.opt.timeoutlen = 300
 
 -- Configure how new splits should be opened
-vim.opt.splitright = true
-vim.opt.splitbelow = true
+vim.opt.splitright = true -- Force all vertical splits to go to the right of current window (default: false)
+vim.opt.splitbelow = true -- Force all horizontal splits to go below current window (default: false)
 
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
@@ -72,8 +72,23 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- Set number column width to 2 {default 4} (default: 4)
+vim.opt.numberwidth = 2
+
+-- Set number column width to 2 {default 4} (default: 4)
 vim.opt.tabstop = 2
+
+-- The number of spaces inserted for each indentation (default: 8)
 vim.opt.shiftwidth = 2
 
+--  NOTE: search what it does
 vim.opt.smartindent = true
+
+-- Convert tabs to spaces (default: false)
 vim.opt.expandtab = true
+
+-- Number of spaces that a tab counts for while performing editing operations (default: 0)
+vim.opt.softtabstop = 4
+
+-- Copy indent from current line when starting new one (default: true)
+vim.opt.autoindent = true
