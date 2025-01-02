@@ -21,7 +21,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
 			-- `cond` is a condition used to determine whether this plugin should be
 			-- installed and loaded.
 			cond = function()
-				return vim.fn.executable("make") == 1
+				return vim.fn.executable("make") == 1 -- checks if 'make' exist in $PATH
 			end,
 		},
 		{ "nvim-telescope/telescope-ui-select.nvim" },
@@ -79,39 +79,48 @@ return { -- Fuzzy Finder (files, lsp, etc)
 
 		-- See `:help telescope.builtin`
 		local builtin = require("telescope.builtin")
-		vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[s]earch [h]elp" })
-		vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[s]earch [k]eymaps" })
-		vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[s]earch [f]iles" })
-		vim.keymap.set("n", "<leader>ss", builtin.builtin, { desc = "[s]earch [s]elect Telescope" })
-		vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[s]earch current [w]ord" })
-		vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[s]earch by [g]rep" })
-		vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[s]earch [d]iagnostics" })
-		vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[s]earch [r]esume" })
-		vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[s]earch recent Files ("." for repeat)' })
-		vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] find existing buffers" })
 
-		-- Slightly advanced example of overriding default behavior and theme
-		vim.keymap.set("n", "<leader>/", function()
-			-- You can pass additional configuration to Telescope to change the theme, layout, etc.
-			-- builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
-			-- 	winblend = 10,
-			-- 	previewer = false,
-			-- }))
-			builtin.current_buffer_fuzzy_find()
-		end, { desc = "[/] Fuzzily search in current buffer" })
+		-- You can pass additional configuration to Telescope to change the theme, layout, etc.
+		-- example of overriding default behavior and theme
+		local map = function(mode, key, builtin_func, opts, desc)
+			vim.keymap.set(mode, key, function()
+				builtin_func(require("telescope.themes").get_ivy(opts))
+			end, desc)
+		end
+
+		map("n", "<leader>sh", builtin.help_tags, {}, { desc = "[s]earch [h]elp" })
+		map("n", "<leader>sk", builtin.keymaps, {}, { desc = "[s]earch [k]eymaps" })
+		map("n", "<leader>sf", builtin.find_files, {}, { desc = "[s]earch [f]iles" })
+		map("n", "<leader>ss", builtin.builtin, {}, { desc = "[s]earch [s]elect Telescope" })
+		map("n", "<leader>sw", builtin.grep_string, {}, { desc = "[s]earch current [w]ord" })
+		map("n", "<leader>sg", builtin.live_grep, {}, { desc = "[s]earch by [g]rep" })
+		map("n", "<leader>sd", builtin.diagnostics, {}, { desc = "[s]earch [d]iagnostics" })
+		map("n", "<leader>sr", builtin.resume, {}, { desc = "[s]earch [r]esume" })
+		map("n", "<leader>s.", builtin.oldfiles, {}, { desc = '[s]earch recent Files ("." for repeat)' })
+		map("n", "<leader><leader>", builtin.buffers, {}, { desc = "[ ] find existing buffers" })
+		map("n", "<leader>/", builtin.current_buffer_fuzzy_find, {}, { desc = "[/] Fuzzily search in current buffer" })
+
+		vim.keymap.set("n", "<leader>won", function()
+			execute("<C-w>v")
+		end, { desc = "[w]indow [o]pen [v]ertically" })
 
 		-- It's also possible to pass additional configuration options.
 		--  See `:help telescope.builtin.live_grep()` for information about particular keys
-		vim.keymap.set("n", "<leader>s/", function()
-			builtin.live_grep({
-				grep_open_files = true,
-				prompt_title = "Live Grep in Open Files",
-			})
-		end, { desc = "[s]earch [/] in Open Files" })
+		map(
+			"n",
+			"<leader>s/",
+			builtin.live_grep,
+			{ grep_open_files = true, prompt_title = "Live Grep in Open Files" },
+			{ desc = "[s]earch [/] in Open Files" }
+		)
 
 		-- Shortcut for searching your Neovim configuration files
-		vim.keymap.set("n", "<leader>sn", function()
-			builtin.find_files({ cwd = vim.fn.stdpath("config") })
-		end, { desc = "[s]earch [n]eovim files" })
+		map(
+			"n",
+			"<leader>sn",
+			builtin.find_files,
+			{ cwd = vim.fn.stdpath("config") },
+			{ desc = "[s]earch [n]eovim files" }
+		)
 	end,
 }

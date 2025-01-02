@@ -95,8 +95,8 @@ require("commands")
 
 -- [[ plugins ]]
 
--- [[ Install `lazy.nvim` plugin manager ]]
---    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
+-- Install `lazy.nvim` plugin manager
+-- See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -107,20 +107,20 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
--- [[ appending plugins ]]
+-- appending plugins
 require("lazy").setup({
-	require("plugins.sleuth"),
+	-- require("plugins.sleuth"),
 	require("plugins.gitsigns"),
 	require("plugins.whichkey"),
 	require("plugins.treesitter"),
 	require("plugins.telescope"),
 	require("plugins.lspconfig"),
 	require("plugins.conform"),
-	require("plugins.nvimcmp"),
+	require("plugins.cmp"),
 	require("plugins.todocomments"),
 	require("plugins.mini"),
 	require("plugins.autopairs"),
 	require("plugins.neo-tree"),
 })
 -- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
+-- vim: ts=2 sts=2 sw=2 e

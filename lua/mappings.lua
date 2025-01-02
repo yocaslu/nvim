@@ -1,6 +1,16 @@
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
+-- safelly import plugins modules
+local import = function(module_name)
+	local success, result = pcall(require, module_name)
+	if success then
+		return result
+	else
+		return nil
+	end
+end
+
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
@@ -69,8 +79,19 @@ vim.keymap.set("n", "<leader>bx", ":bdelete!<CR>", { desc = "delete buffer" }) -
 vim.keymap.set("n", "<leader>bc", "<cmd> enew <CR>", { desc = "create new buffer" }) -- new buffer
 
 -- Window management
-vim.keymap.set("n", "<leader>wv", "<C-w>v", { desc = "split [w]indow [v]ertically" }) -- split window vertically
-vim.keymap.set("n", "<leader>wh", "<C-w>s", { desc = "split [w]indow [h]orizontally" }) -- split window horizontally
+
+-- FIX:
+-- if telescope is available, then open new windows with it
+local telescope = import("telescope.builtin")
+print(telescope)
+if telescope then
+	vim.keymap.set("n", "<leader>wov", telescope.find_files, { desc = "[w]indow [o]pen file [v]ertically" })
+	vim.keymap.set("n", "<leader>woh", telescope.find_files, { desc = "[w]indow [o]pen file [h]orizontally" })
+end
+-- FIX: is not loading the maps
+
+vim.keymap.set("n", "<leader>wnv", "<C-w>v", { desc = "[w]indow [n]ew [v]ertically" })
+vim.keymap.set("n", "<leader>wnh", "<C-w>h", { desc = "[w]indow [n]ew [h]orizontally" })
 vim.keymap.set("n", "<leader>we", "<C-w>=", { desc = "split [w]indows [e]qual width & height" }) -- make split windows equal width & height
 vim.keymap.set("n", "<leader>wx", ":close<CR>", { desc = "[w]indow [c]lose" }) -- close current split window
 
