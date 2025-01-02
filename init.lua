@@ -87,9 +87,6 @@ P.S. You can delete this when you're done too. It's your config now! :)
 -- [[ Options ]]
 require("options") -- sets leader key
 
--- [[ KeyMaps ]]
-require("mappings")
-
 -- [[ autocommands ]]
 require("commands")
 
@@ -122,5 +119,9 @@ require("lazy").setup({
 	require("plugins.autopairs"),
 	require("plugins.neo-tree"),
 })
+
+-- [[ KeyMaps ]]
+require("mappings")
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 e
