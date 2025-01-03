@@ -251,8 +251,9 @@ vim.keymap.set("n", "<leader>bc", "<cmd> enew <CR>", { desc = "create new buffer
 
 -- Window management
 
-vim.keymap.set("n", "<leader>wnv", "<C-w>v", { desc = "[w]indow [n]ew [v]ertically" })
-vim.keymap.set("n", "<leader>wnh", "<C-w>h", { desc = "[w]indow [n]ew [h]orizontally" })
+-- need to use telescope to open an builtin.find_files to the new window
+-- vim.keymap.set("n", "<leader>wv", "<C-w>v", { desc = "new [w]indow [v]ertically" })
+-- vim.keymap.set("n", "<leader>wh", "<C-w>h", { desc = "new [w]indow [h]orizontally" })
 vim.keymap.set("n", "<leader>we", "<C-w>=", { desc = "split [w]indows [e]qual width & height" }) -- make split windows equal width & height
 vim.keymap.set("n", "<leader>wx", ":close<CR>", { desc = "[w]indow [c]lose" }) -- close current split window
 
@@ -470,15 +471,22 @@ require("lazy").setup({
 			-- [[ Configure Telescope ]]
 			-- See `:help telescope` and `:help telescope.setup()`
 			require("telescope").setup({
-				-- You can put your default mappings / updates / etc. in here
-				--  All the info you're looking for is in `:help telescope.setup()`
-				--
-				-- defaults = {
-				--   mappings = {
-				--     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-				--   },
-				-- },
-				-- pickers = {}
+
+				selection_caret = " > ",
+				entry_prefix = " > ",
+				border = false,
+
+				pickers = {
+					find_files = {
+						theme = "ivy",
+						previewer = false,
+					},
+
+					colorscheme = {
+						theme = "ivy",
+						previewer = false,
+					},
+				},
 				extensions = {
 					["ui-select"] = {
 						require("telescope.themes").get_dropdown(),
@@ -502,6 +510,7 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
 			vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
 			vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
+			vim.keymap.set("n", "<leader>st", builtin.colorscheme, { desc = "[S]earch [T]hemes" })
 
 			-- Slightly advanced example of overriding default behavior and theme
 			vim.keymap.set("n", "<leader>/", function()
@@ -525,6 +534,16 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader>sn", function()
 				builtin.find_files({ cwd = vim.fn.stdpath("config") })
 			end, { desc = "[S]earch [N]eovim files" })
+
+			vim.keymap.set("n", "<leader>wh", function()
+				vim.cmd("split")
+				builtin.find_files()
+			end, { desc = "new [w]indow [h]orizontally" })
+
+			vim.keymap.set("n", "<leader>wv", function()
+				vim.cmd("vsplit")
+				builtin.find_files()
+			end, { desc = "new [w]indow [v]ertically" })
 		end,
 	},
 
@@ -1040,6 +1059,7 @@ require("lazy").setup({
 	--  Here are some example plugins that I've included in the Kickstart repository.
 	--  Uncomment any of the lines below to enable them (you will need to restart nvim).
 	--
+	-- NOTE: [ not avaliable ]
 	-- require 'kickstart.plugins.debug',
 	-- require 'kickstart.plugins.indent_line',
 	-- require 'kickstart.plugins.lint',
@@ -1057,7 +1077,20 @@ require("lazy").setup({
 	-- Or use telescope!
 	-- In normal mode type `<space>sh` then write `lazy.nvim-plugin`
 	-- you can continue same window with `<space>sr` which resumes last telescope search
-}, {
+	{
+		"windwp/nvim-autopairs",
+		event = "InsertEnter",
+		-- Optional dependency
+		dependencies = { "hrsh7th/nvim-cmp" },
+		config = function()
+			require("nvim-autopairs").setup({})
+			-- If you want to automatically add `(` after selecting a function or method
+			local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+			local cmp = require("cmp")
+			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+		end,
+	},
+}, { -- Lazy icons
 	ui = {
 		-- If you are using a Nerd Font: set icons to an empty table which will use the
 		-- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
