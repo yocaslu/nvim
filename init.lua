@@ -107,13 +107,14 @@ vim.opt.rtp:prepend(lazypath)
 -- appending plugins
 require("lazy").setup({
 	-- require("plugins.sleuth"),
+	require("plugins.cmp"),
 	require("plugins.gitsigns"),
 	require("plugins.whichkey"),
 	require("plugins.treesitter"),
 	require("plugins.telescope"),
 	require("plugins.lspconfig"),
 	require("plugins.conform"),
-	require("plugins.cmp"),
+
 	require("plugins.todocomments"),
 	require("plugins.mini"),
 	require("plugins.autopairs"),

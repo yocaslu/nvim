@@ -1,6 +1,9 @@
 local cmp = require("functions").import("cmp")
-if cmp then
-	return {
+local luasnip = require("functions").import("luasnip")
+
+local M = {}
+if cmp and luasnip then
+	M.cmp_mappings = {
 		-- Select the [n]ext item
 		["<C-n>"] = cmp.mapping.select_next_item(),
 		-- Select the [p]revious item
@@ -48,4 +51,11 @@ if cmp then
 		-- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
 		--    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
 	}
+
+	M.vim_mappings = function()
+		print("hello there")
+		vim.keymap.set("n", "<C-y>", cmp.mapping.confirm, { desc = "confirm cmp suggestion" })
+	end
+
+	return M
 end
