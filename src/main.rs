@@ -2,7 +2,7 @@ use log::{error, info, warn};
 use std::{
     env::{current_dir, set_var, var},
     fs::{create_dir, remove_dir_all},
-    io::Error,
+    io::{Error, ErrorKind},
     os::unix::fs::symlink,
     path::PathBuf,
     process::exit,
@@ -29,12 +29,12 @@ fn clean_config() -> Result<(), Error> {
     if !config_path.exists() {
         info!("creating: {:?}", &config_path);
         create_dir(&config_path)?;
-    }
-
-    let nvim_config: PathBuf = config_path.join("nvim");
-    if nvim_config.exists() {
-        warn!("deleting: {:?}", &nvim_config);
-        remove_dir_all(nvim_config)?;
+    } else {
+        let nvim_config: PathBuf = config_path.join("nvim");
+        if nvim_config.exists() {
+            warn!("deleting: {:?}", &nvim_config);
+            remove_dir_all(nvim_config)?;
+        }    
     }
 
     Ok(())
@@ -47,15 +47,15 @@ fn clean_cache() -> Result<(), Error> {
         info!("creating: {:?}", &local_path);
         create_dir(&local_path)?;
         return Ok(());
-    }
-
-    for subdir in ["share/nvim", "state/nvim"] {
-        let path: PathBuf = local_path.join(subdir);
-        if path.exists() {
-            warn!("deleting: {:?}", &path);
-            remove_dir_all(path)?;
-        } else {
-            info!("nvim not found in {:?}", path)
+    } else {
+        for subdir in ["share/nvim", "state/nvim"] {
+            let path: PathBuf = local_path.join(subdir);
+            if path.exists() {
+                warn!("deleting: {:?}", &path);
+                remove_dir_all(path)?;
+            } else {
+                info!("nvim not found in {:?}", path)
+            }
         }
     }
 
@@ -70,6 +70,7 @@ fn install() -> Result<(), Error> {
         symlink(&repo_nvim_path, &home_config_path.join("nvim"))?;
     } else {
         error!("{:?} does not exist.", &repo_nvim_path);
+        return Err(Error::new(ErrorKind::NotFound, "nvim repo not found"));
     }
 
     Ok(())
